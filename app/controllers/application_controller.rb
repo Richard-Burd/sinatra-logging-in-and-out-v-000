@@ -19,6 +19,19 @@ class ApplicationController < Sinatra::Base
     erb :error
   end
 
+  post '/secretlogin' do
+    @user = User.find_by(:username => params[:username])
+    if @user != nil && @user.password == params[:password]
+      session[:user_id] = @user.id
+      redirect to '/secretaccount'
+    end
+    erb :error
+  end
+
+
+
+
+
   get '/account' do
     @current_user = User.find_by_id(session[:user_id])
     if @current_user
